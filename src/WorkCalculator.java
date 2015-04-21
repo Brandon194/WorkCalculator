@@ -49,4 +49,6 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         pnlhours.addComponents();
         pnljobs.addComponents();
     }
+
+
 }
