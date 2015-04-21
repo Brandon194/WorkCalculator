@@ -14,7 +14,6 @@ public class frmNewJob extends JFrame implements ActionListener {
 
     JobHandler handler;
     pnlJobs pnljob;
-    JFrame frame;
 
     JPanel pnlMain = new JPanel();
     JPanel pnlJob = new JPanel();
@@ -27,10 +26,9 @@ public class frmNewJob extends JFrame implements ActionListener {
     JButton btnApply = new JButton("Apply");
 
 
-    public frmNewJob(JobHandler handler, pnlJobs pnljob, JFrame frame){
+    public frmNewJob(JobHandler handler, pnlJobs pnljob){
         this.handler = handler;
         this.pnljob = pnljob;
-        this.frame = frame;
 
         this.add(pnlMain);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -71,7 +69,6 @@ public class frmNewJob extends JFrame implements ActionListener {
 
         if (event.getSource() == btnApply) {
             pnljob.frameClose();
-            frame.dispose();
             this.dispose();
         }
     }
