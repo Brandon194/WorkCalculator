@@ -36,7 +36,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         tabbedPane.addChangeListener(this);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IllegalArgumentException{
         new WorkCalculator();
     }
 

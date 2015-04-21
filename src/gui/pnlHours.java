@@ -20,8 +20,6 @@ public class pnlHours extends JPanel implements ActionListener {
     JPanel pnlMain = new JPanel();
 
     public pnlHours(JobHandler handler){
-        txtHours = new JTextField[handler.getNumOfJobs()];
-        intHours = new int[handler.getNumOfJobs()];
         this.handler = handler;
         this.add(pnlMain);
 
@@ -51,6 +49,9 @@ public class pnlHours extends JPanel implements ActionListener {
         pnlMain.revalidate();
     }
     private void loadData(){
+        txtHours = new JTextField[handler.getNumOfJobs()];
+        intHours = new int[handler.getNumOfJobs()];
+
         String[] toParse = frw.reader();
         for (int i=0;i<handler.getNumOfJobs();i++){
             try{
@@ -59,6 +60,8 @@ public class pnlHours extends JPanel implements ActionListener {
                 System.out.println("Failed to Parse Hours On Load");
             }
         }
+
+
     }
     private int addHours(){
         int total = 0;
@@ -99,12 +102,13 @@ public class pnlHours extends JPanel implements ActionListener {
                     intHours[i] = Integer.parseInt(txtHours[i].getText());
                 }catch(Exception exception) {
                     intHours[i] = 0;
+                    System.out.println("Failed to parse");
                 }
             }
             writer[i] = "" + txtHours[i].getText();
         }
-        addComponents();
         frw.writer(writer);
+        addComponents();
 
     }
 }
