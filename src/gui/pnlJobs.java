@@ -25,7 +25,6 @@ public class pnlJobs extends JPanel implements ActionListener {
     public pnlJobs(JobHandler handler, JFrame frame){
         this.handler = handler;
 
-
         addComponents();
 
         this.add(pnlMain);

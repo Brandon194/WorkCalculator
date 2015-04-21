@@ -23,7 +23,6 @@ public class pnlHours extends JPanel implements ActionListener {
         txtHours = new JTextField[handler.getNumOfJobs()];
         intHours = new int[handler.getNumOfJobs()];
         this.handler = handler;
-        pnlMain.setLayout(new GridLayout(handler.getNumOfJobs()+3, 2));
         this.add(pnlMain);
 
         addComponents();
@@ -31,6 +30,8 @@ public class pnlHours extends JPanel implements ActionListener {
 
     public void addComponents(){
         loadData();
+
+        pnlMain.setLayout(new GridLayout(handler.getNumOfJobs()+3, 2));
         pnlMain.removeAll();
 
         pnlMain.add(new JLabel("Jobs"));
