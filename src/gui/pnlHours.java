@@ -13,14 +13,13 @@ import java.awt.event.ActionListener;
  * Created by Brandon194 on 4/17/2015.
  */
 public class pnlHours extends JPanel implements ActionListener {
-    int[] intHours;
     JTextField[] txtHours;
     JobHandler handler;
-    FileReadWrite frw = new FileReadWrite("WorkCalculator", "Hours");
     JPanel pnlMain = new JPanel();
 
     public pnlHours(JobHandler handler){
         this.handler = handler;
+        txtHours = new JTextField[handler.getNumOfJobs()];
         this.add(pnlMain);
 
         addComponents();
@@ -39,7 +38,7 @@ public class pnlHours extends JPanel implements ActionListener {
             txtHours[i] = new JTextField();
             pnlMain.add(txtHours[i]);
             txtHours[i].addActionListener(this);
-            txtHours[i].setText("" + intHours[i]);
+            txtHours[i].setText("" + handler.getJob(i).getHours());
         }
         pnlMain.add(new JLabel("Total hours"));
         pnlMain.add(new JLabel("" + addHours()));
@@ -49,15 +48,16 @@ public class pnlHours extends JPanel implements ActionListener {
         pnlMain.revalidate();
     }
     private void loadData(){
-        txtHours = new JTextField[handler.getNumOfJobs()];
-        intHours = new int[handler.getNumOfJobs()];
 
-        String[] toParse = frw.reader();
         for (int i=0;i<handler.getNumOfJobs();i++){
+            if (txtHours[i] == null){
+                txtHours[i] = new JTextField();
+            }
+
             try{
-                intHours[i] = Integer.parseInt(toParse[i]);
+                txtHours[i].setText("" + handler.getJob(i).getHours());
             }catch (Exception e){
-                System.out.println("Failed to Parse Hours On Load");
+                System.out.println("pnlHours (56): Failed to Parse Hours On Load");
             }
         }
 
@@ -66,14 +66,14 @@ public class pnlHours extends JPanel implements ActionListener {
     private int addHours(){
         int total = 0;
         for(int i=0;i<handler.getNumOfJobs();i++){
-            total+=intHours[i];
+            total+=handler.getJob(i).getHours();
         }
         return total;
     }
     private double incomeHours(){
         double total = 0;
         for (int i=0;i<handler.getNumOfJobs();i++){
-            double temp = handler.getJob(i).getWage() * intHours[i];
+            double temp = handler.getJob(i).getWage() * handler.getJob(i).getHours();
             total+=temp;
         }
 
@@ -83,7 +83,7 @@ public class pnlHours extends JPanel implements ActionListener {
     public void debug(){
         String intHoursString = "intHours {";
         for (int i=0;i<handler.getNumOfJobs();i++){
-            intHoursString+= "" + intHours[i] + ", ";
+            intHoursString+= "" + handler.getJob(i).getHours() + ", ";
         }
         intHoursString+= "}";
 
@@ -95,19 +95,16 @@ public class pnlHours extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent event){
-        String[] writer = new String[handler.getNumOfJobs()];
         for (int i=0;i<handler.getNumOfJobs();i++){
             if (event.getSource() == txtHours[i]){
                 try{
-                    intHours[i] = Integer.parseInt(txtHours[i].getText());
+                    handler.getJob(i).setHours(Integer.parseInt(txtHours[i].getText()));
                 }catch(Exception exception) {
-                    intHours[i] = 0;
-                    System.out.println("Failed to parse");
+                    handler.getJob(i).setHours(0);
+                    System.out.println("Failed to parse on write");
                 }
             }
-            writer[i] = "" + txtHours[i].getText();
         }
-        frw.writer(writer);
         addComponents();
 
     }

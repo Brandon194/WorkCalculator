@@ -9,7 +9,7 @@ import fileIO.FileReadWrite;
 public class JobHandler {
     FileReadWrite frw = new FileReadWrite("WorkCalculator", "JobHandler");
 
-    Job[] jobs = new Job[1024];
+    Job[] jobs = new Job[12];
     int numOfJobs = 0;
 
 
@@ -29,6 +29,23 @@ public class JobHandler {
 
         saveChanges();
     }
+
+    public void addHours(int[] hoursArray) throws IndexOutOfBoundsException{
+        for (int i=0;i<hoursArray.length;i++){
+            if (jobs[i] == null){
+                break;
+            }else{
+                try{
+                    jobs[i].setHours(hoursArray[i]);
+                }catch(IndexOutOfBoundsException e){
+                    new IndexOutOfBoundsException("Error in intHours");
+                }
+            }
+
+        }
+        saveChanges();
+    }
+
     public void newJob(String name, double wage){
         newJob(new Job(name, wage));
     }
