@@ -11,8 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileReadWrite {
+    /** Root Folder appdata\Brandon194 */
 	public static final Path ROOT_FOLDER = Paths.get(System.getenv("APPDATA") + "\\Brandon194\\");
-	String filePath;
+    /** Full file path */
+	private final String filePath;
+    /** Fold and File name on disk */
 	private String folderName, fileName;
 
 	public FileReadWrite(String folderNameIn, String fileNameIn){
@@ -30,7 +33,11 @@ public class FileReadWrite {
                 System.out.println("Path does not exist, creation failed.");
 		}
 	}
-	
+
+    /**
+     * Writes an array of Strings to disk. Each element is a line
+     * @param InputStringArray String Array
+     */
 	public void writer(String[] InputStringArray){
 		
 		PrintWriter out;
@@ -48,6 +55,11 @@ public class FileReadWrite {
 			System.out.println("Write Failed");
 		}
 	}
+
+    /**
+     * Reads the file from disk, each line is a new element of the array
+     * @return String Array
+     */
 	public String[] reader(){
 		
 		Path p = (Paths.get(filePath));
@@ -64,6 +76,10 @@ public class FileReadWrite {
 		
 		return returnable;
 	}
+
+    /**
+     * deletes this file
+     */
     public void delete(){
         try{
             Files.deleteIfExists(Paths.get(filePath));

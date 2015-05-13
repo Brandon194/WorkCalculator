@@ -50,6 +50,9 @@ public class Job {
         return null;
     }
 
+    /**
+     * Delete's this job
+     */
     public void delete(){
         frw.delete();
     }

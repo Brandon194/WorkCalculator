@@ -7,9 +7,12 @@ import fileIO.FileReadWrite;
  * Created by Brandon194 on 4/17/2015.
  */
 public class JobHandler {
+    /** FileReadWrite \\Brandon194\WorkCalculator\JobHandler */
     FileReadWrite frw = new FileReadWrite("WorkCalculator", "JobHandler");
 
+    /** Array of Jobs */
     Job[] jobs = new Job[12];
+    /** Number of Jobs in the array */
     int numOfJobs = 0;
 
     public JobHandler(){
@@ -22,6 +25,10 @@ public class JobHandler {
         numOfJobs = jobNames.length;
     }
 
+    /**
+     * Adding a new Job to the array
+     * @param newJob Job to be handled
+     */
     public void newJob(Job newJob){
         jobs[numOfJobs] = newJob;
         numOfJobs++;
@@ -29,6 +36,20 @@ public class JobHandler {
         saveChanges();
     }
 
+    /**
+     * Adding a new Job to the array
+     * @param name Name of the job
+     * @param wage Wage of the job
+     */
+    public void newJob(String name, double wage){
+        newJob(new Job(name, wage));
+    }
+
+    /**
+     * Adds hours to the Jobs in the array in order
+     * @param hoursArray Array of Integers ready to be applied to the jobs in order
+     * @throws IndexOutOfBoundsException
+     */
     public void addHours(int[] hoursArray) throws IndexOutOfBoundsException{
         for (int i=0;i<hoursArray.length;i++){
             if (jobs[i] == null){
@@ -45,9 +66,10 @@ public class JobHandler {
         saveChanges();
     }
 
-    public void newJob(String name, double wage){
-        newJob(new Job(name, wage));
-    }
+    /**
+     * Deletes job
+     * @param jobName Name to search for job
+     */
     public void deleteJob(String jobName){
         for (int i=0;i<numOfJobs;i++){
             if (jobs[i].getName().equals(jobName)){
@@ -62,6 +84,11 @@ public class JobHandler {
             }
         }
     }
+
+    /**
+     * Deletes job
+     * @param jobNumber number of job in array
+     */
     public void deleteJob(int jobNumber){
         for (int i=jobNumber;i<numOfJobs-1;i++){
             jobs[i] = jobs[i+1];
@@ -70,6 +97,10 @@ public class JobHandler {
         saveChanges();
         jobs[jobNumber].delete();
     }
+
+    /**
+     * Deletes old file, and creates new one with the new data
+     */
     private void saveChanges(){
         String[] jobNames = new String[numOfJobs];
         for (int i=0;i<numOfJobs;i++){
@@ -79,6 +110,11 @@ public class JobHandler {
         frw.writer(jobNames);
     }
 
+    /**
+     * Gets job
+     * @param jobName Name of job to return
+     * @return Job with name the same as jobName
+     */
     public Job getJob(String jobName){
         for (int i=0;i<numOfJobs;i++){
             if (jobs[i].getName().equals(jobName))
@@ -87,9 +123,16 @@ public class JobHandler {
         System.out.println("No Results Found");
         return null;
     }
+
+    /**
+     * Gets job
+     * @param num position of job wanted in the array
+     * @return
+     */
     public Job getJob(int num){
         return jobs[num];
     }
+
     public Job[] getAllJobs(){
         return jobs;
     }

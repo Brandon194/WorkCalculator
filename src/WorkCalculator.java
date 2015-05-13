@@ -15,7 +15,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     public static final JobHandler jobHandler = new JobHandler();
     private final JTabbedPane tabbedPane = new JTabbedPane();
-    public final static int VERSION_ID = 2;
+    public final static double VERSION_ID = 2.0;
 
     pnlHours pnlhours = new pnlHours(jobHandler);
     pnlJobs pnljobs = new pnlJobs(jobHandler, this);
