@@ -52,6 +52,7 @@ public class pnlHours extends JPanel implements ActionListener {
         for (int i=0;i<handler.getNumOfJobs();i++){
             if (txtHours[i] == null){
                 txtHours[i] = new JTextField();
+                txtHours[i].setText("" + handler.getJob(i).getHours());
             }
 
             try{

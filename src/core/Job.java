@@ -43,21 +43,11 @@ public class Job {
         FileReadWrite frw = new FileReadWrite("WorkCalculator",jobName);
         String[] readerData = frw.reader();
 
-        for (int i=0;i<readerData.length;i++){
-            System.out.println("READERDATA " + i + ": " + readerData[i]);
-        }
-
-        try{
-            String name = readerData[0];
-            double wage = Double.parseDouble(readerData[1]);
-            int hours = Integer.parseInt(readerData[2]);
-        }catch (Exception e){
-            System.out.println("Fucking cunt");
-            e.printStackTrace();
-        }
-        //Job j = new Job(readerData[0],Double.parseDouble(readerData[1]),Integer.parseInt(readerData[3]));
-
-        return new Job("", 0);
+        if (readerData.length == 2)
+            return new Job(readerData[0], Double.parseDouble(readerData[1]));
+        if (readerData.length == 3)
+            return new Job(readerData[0],Double.parseDouble(readerData[1]),Integer.parseInt(readerData[2]));
+        return null;
     }
 
     public void delete(){

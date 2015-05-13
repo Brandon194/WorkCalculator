@@ -12,7 +12,6 @@ public class JobHandler {
     Job[] jobs = new Job[12];
     int numOfJobs = 0;
 
-
     public JobHandler(){
         String[] jobNames = frw.reader();
 

@@ -20,10 +20,10 @@ public class FileReadWrite {
 		folderName = folderNameIn;
 		fileName = fileNameIn;
 		
-		filePath = ROOT_FOLDER + "\\" + folderName + "\\TESTING\\" + fileName + ".txt";
+		filePath = ROOT_FOLDER + "\\" + folderName + "\\" + fileName + ".txt";
 		
 		try{
-			Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\TESTING\\"));
+			Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\"));
 			Files.createFile(Paths.get(filePath));
 		}catch(Exception e){
 			if (!Files.exists(Paths.get(filePath)))
