@@ -11,18 +11,23 @@ public class JobHandler {
     FileReadWrite frw = new FileReadWrite("WorkCalculator", "JobHandler");
 
     /** Array of Jobs */
-    Job[] jobs = new Job[12];
+    Job[] jobs = new Job[0];
     /** Number of Jobs in the array */
     int numOfJobs = 0;
 
     public JobHandler(){
         String[] jobNames = frw.reader();
+        jobs = new Job[jobNames.length];
 
         for (int i=0; i<jobNames.length;i++){
-            jobs[i] = Job.readJob(jobNames[i]);
+            try {
+                newJob(Job.readJob(jobNames[i]));
+            }catch(Exception e){
+                newJob(new Job("" + i,0,0));
+                System.out.println(Job.readJob(jobNames[i]).getName());
+                System.out.println("JobHandler (26): Job Read Fail");
+            }
         }
-
-        numOfJobs = jobNames.length;
     }
 
     /**
@@ -30,8 +35,15 @@ public class JobHandler {
      * @param newJob Job to be handled
      */
     public void newJob(Job newJob){
-        jobs[numOfJobs] = newJob;
-        numOfJobs++;
+        Job[] temp = new Job[jobs.length+1];
+
+        for (int i=0;i<jobs.length;i++){
+            temp[i] = jobs[i];
+        }
+        temp[jobs.length] = newJob;
+         numOfJobs++;
+
+        jobs = temp;
 
         saveChanges();
     }

@@ -13,12 +13,12 @@ import java.util.Scanner;
  */
 public class WorkCalculator extends JFrame implements ChangeListener{
 
-    public static final JobHandler jobHandler = new JobHandler();
+    public final JobHandler jobHandler = new JobHandler();
     private final JTabbedPane tabbedPane = new JTabbedPane();
     public final static double VERSION_ID = 2.0;
 
-    pnlHours pnlhours = new pnlHours(jobHandler);
-    pnlJobs pnljobs = new pnlJobs(jobHandler, this);
+    private final pnlHours pnlhours;
+    private final pnlJobs pnljobs;
 
     private static final String[] INFO = {
             "Author: Brandon194",
@@ -26,8 +26,10 @@ public class WorkCalculator extends JFrame implements ChangeListener{
             "Date: May 12, 2015"
     };
 
-
     public WorkCalculator() {
+        pnlhours = new pnlHours(jobHandler);
+        pnljobs = new pnlJobs(jobHandler, this);
+
         this.setLocationRelativeTo(null);
         this.setTitle("Work Times Calculator");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +45,18 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
         tabbedPane.addChangeListener(this);
     }
+
+
+    private void Debug(){
+        System.out.println("" + jobHandler.getNumOfJobs() + " jobs loaded");
+        pnlhours.debug();
+    }
+
+    public void stateChanged(ChangeEvent e) {
+        pnlhours.addComponents();
+        pnljobs.addComponents();
+    }
+
 
     public static void main(String[] args){
 
@@ -62,7 +76,6 @@ public class WorkCalculator extends JFrame implements ChangeListener{
             changes = true;
         }
 
-        changes = true;
         if (changes) {
 
             frw = new FileReadWrite("WorkCalculator", "JobHandler");
@@ -78,16 +91,4 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         }
         new WorkCalculator();
     }
-
-    private void Debug(){
-        System.out.println("" + jobHandler.getNumOfJobs() + " jobs loaded");
-        pnlhours.debug();
-    }
-
-    public void stateChanged(ChangeEvent e) {
-        pnlhours.addComponents();
-        pnljobs.addComponents();
-    }
-
-
 }

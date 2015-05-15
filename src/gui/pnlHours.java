@@ -34,7 +34,8 @@ public class pnlHours extends JPanel implements ActionListener {
         pnlMain.add(new JLabel("Jobs"));
         pnlMain.add(new JLabel("Hours Worked"));
         for (int i=0;i<handler.getNumOfJobs();i++){
-            pnlMain.add(new JLabel(handler.getAllJobs()[i].getName()));
+            System.out.println("pnlHours (37): " + i);
+            pnlMain.add(new JLabel(handler.getJob(i).getName()));
             txtHours[i] = new JTextField();
             pnlMain.add(txtHours[i]);
             txtHours[i].addActionListener(this);
@@ -50,15 +51,13 @@ public class pnlHours extends JPanel implements ActionListener {
     private void loadData(){
 
         for (int i=0;i<handler.getNumOfJobs();i++){
-            if (txtHours[i] == null){
-                txtHours[i] = new JTextField();
-                txtHours[i].setText("" + handler.getJob(i).getHours());
-            }
+            txtHours[i] = new JTextField();
 
             try{
                 txtHours[i].setText("" + handler.getJob(i).getHours());
             }catch (Exception e){
-                System.out.println("pnlHours (56): Failed to Parse Hours On Load");
+                txtHours[i].setText("0");
+                System.out.println("pnlHours (56): Failed to Parse Hours On Load | Job " + i);
             }
         }
 

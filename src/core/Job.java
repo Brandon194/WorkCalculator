@@ -43,6 +43,19 @@ public class Job {
         FileReadWrite frw = new FileReadWrite("WorkCalculator",jobName);
         String[] readerData = frw.reader();
 
+        System.out.println(readerData[0] + " " + readerData[1] + " " + readerData[2]);
+
+        try{
+            double d = Double.parseDouble(readerData[1]);
+        } catch (Exception e){
+            System.out.println("Double Fail");
+        }
+        try{
+            int i = Integer.parseInt(readerData[2]);
+        } catch (Exception e){
+            System.out.println("Integer Fail");
+        }
+
         if (readerData.length == 2)
             return new Job(readerData[0], Double.parseDouble(readerData[1]));
         if (readerData.length == 3)
