@@ -1,7 +1,5 @@
 package gui;
 
-import core.Job;
-import fileIO.FileReadWrite;
 import handler.JobHandler;
 
 import javax.swing.*;
@@ -16,6 +14,8 @@ public class pnlHours extends JPanel implements ActionListener {
     JTextField[] txtHours;
     JobHandler handler;
     JPanel pnlMain = new JPanel();
+
+    public boolean debug = false;
 
     public pnlHours(JobHandler handler){
         this.handler = handler;
@@ -34,7 +34,6 @@ public class pnlHours extends JPanel implements ActionListener {
         pnlMain.add(new JLabel("Jobs"));
         pnlMain.add(new JLabel("Hours Worked"));
         for (int i=0;i<handler.getNumOfJobs();i++){
-            System.out.println("pnlHours (37): " + i);
             pnlMain.add(new JLabel(handler.getJob(i).getName()));
             txtHours[i] = new JTextField();
             pnlMain.add(txtHours[i]);
@@ -49,6 +48,7 @@ public class pnlHours extends JPanel implements ActionListener {
         pnlMain.revalidate();
     }
     private void loadData(){
+        txtHours = new JTextField[handler.getNumOfJobs()];
 
         for (int i=0;i<handler.getNumOfJobs();i++){
             txtHours[i] = new JTextField();
@@ -96,13 +96,11 @@ public class pnlHours extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent event){
         for (int i=0;i<handler.getNumOfJobs();i++){
-            if (event.getSource() == txtHours[i]){
-                try{
-                    handler.getJob(i).setHours(Integer.parseInt(txtHours[i].getText()));
-                }catch(Exception exception) {
-                    handler.getJob(i).setHours(0);
-                    System.out.println("Failed to parse on write");
-                }
+            try{
+                handler.getJob(i).setHours(Integer.parseInt(txtHours[i].getText()));
+            }catch(Exception exception) {
+                handler.getJob(i).setHours(0);
+                System.out.println("Failed to parse on write");
             }
         }
         addComponents();

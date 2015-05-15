@@ -18,15 +18,24 @@ public class FileReadWrite {
     /** Fold and File name on disk */
 	private String folderName, fileName;
 
+    private boolean debug = true;
+
 	public FileReadWrite(String folderNameIn, String fileNameIn){
 		
 		folderName = folderNameIn;
 		fileName = fileNameIn;
-		
-		filePath = ROOT_FOLDER + "\\" + folderName + "\\" + fileName + ".txt";
-		
+
+        if (debug) {
+            filePath = ROOT_FOLDER + "\\" + folderName + "\\Testing\\" + fileName + ".txt";
+        } else {
+            filePath = ROOT_FOLDER + "\\" + folderName + "\\" + fileName + ".txt";
+        }
 		try{
-			Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\"));
+            if (debug) {
+                Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\Testing\\"));
+            } else {
+                Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\"));
+            }
 			Files.createFile(Paths.get(filePath));
 		}catch(Exception e){
 			if (!Files.exists(Paths.get(filePath)))

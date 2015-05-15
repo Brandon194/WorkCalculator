@@ -1,6 +1,5 @@
 package gui;
 
-import fileIO.FileReadWrite;
 import handler.JobHandler;
 
 import javax.swing.*;
@@ -38,7 +37,9 @@ public class pnlJobs extends JPanel implements ActionListener {
         btnDel = new JButton[handler.getNumOfJobs()];
 
         for (int i=0;i<handler.getNumOfJobs();i++){
-            pnlMain.add(new JLabel(handler.getJob(i).getName()));
+            try {
+                pnlMain.add(new JLabel(handler.getJob(i).getName()));
+            }catch(Exception e){}
             btnDel[i] = new JButton("Delete");
             pnlMain.add(btnDel[i]);
             btnDel[i].addActionListener(this);

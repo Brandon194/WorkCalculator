@@ -6,7 +6,6 @@ import handler.JobHandler;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.util.Scanner;
 
 /**
  * Created by Brandon194 on 4/15/2015.
@@ -44,12 +43,6 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         this.revalidate();
 
         tabbedPane.addChangeListener(this);
-    }
-
-
-    private void Debug(){
-        System.out.println("" + jobHandler.getNumOfJobs() + " jobs loaded");
-        pnlhours.debug();
     }
 
     public void stateChanged(ChangeEvent e) {
@@ -90,5 +83,8 @@ public class WorkCalculator extends JFrame implements ChangeListener{
             }
         }
         new WorkCalculator();
+        double palHours = 22, storeHours = 21;
+        int  i = (int) ((20 * palHours) + (11 + storeHours));
+        System.out.println("Net Income: " + i);
     }
 }

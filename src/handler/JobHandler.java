@@ -4,151 +4,115 @@ import core.Job;
 import fileIO.FileReadWrite;
 
 /**
- * Created by Brandon194 on 4/17/2015.
+ * Created by Brandon194 on 5/15/2015.
  */
 public class JobHandler {
-    /** FileReadWrite \\Brandon194\WorkCalculator\JobHandler */
-    FileReadWrite frw = new FileReadWrite("WorkCalculator", "JobHandler");
+    private final FileReadWrite frw = new FileReadWrite("WorkCalculator", "JobHandler");
 
-    /** Array of Jobs */
-    Job[] jobs = new Job[0];
-    /** Number of Jobs in the array */
-    int numOfJobs = 0;
+    private Job[] jobs = null;
 
     public JobHandler(){
         String[] jobNames = frw.reader();
-        jobs = new Job[jobNames.length];
 
-        for (int i=0; i<jobNames.length;i++){
-            try {
-                newJob(Job.readJob(jobNames[i]));
-            }catch(Exception e){
-                newJob(new Job("" + i,0,0));
-                System.out.println(Job.readJob(jobNames[i]).getName());
-                System.out.println("JobHandler (26): Job Read Fail");
-            }
+        for (int i=0;i<jobNames.length;i++) {
+            addExistingJob(jobNames[i]);
         }
     }
 
     /**
-     * Adding a new Job to the array
-     * @param newJob Job to be handled
+     * expands the array by 1
      */
-    public void newJob(Job newJob){
-        Job[] temp = new Job[jobs.length+1];
+    private void expandArray(){
+        System.out.println("Expanding Jobs Array");
+        if (jobs == null){
+            jobs = new Job[1];
+        } else {
+            System.out.println("Size before expand: " + jobs.length);
+            Job[] temp = new Job[jobs.length + 1];
+            int lastIndex = 1;
+            for (int i = 0; i < jobs.length; i++) {
+                temp[i] = jobs[i];
+                lastIndex++;
+            }
+            jobs = temp;
+        }
+        System.out.println("Array Expanded, Current Length: " + jobs.length);
+    }
+
+    /**
+     * Adds existing job from handler file to program
+     * @param jobName Name of the existing job to find
+     */
+    private void addExistingJob(String jobName){
+        expandArray();
+
+        FileReadWrite frw2 = new FileReadWrite("WorkCalculator", jobName);
+        String[] job = frw2.reader();
+
+        if (job.length == 1){
+            addNewJob("Errmac",0);
+        }else if (job.length == 2){
+            jobs[jobs.length-1] = new Job(job[0],Double.parseDouble(job[1]));
+        } else if (job.length >= 3){
+            jobs[jobs.length-1] = new Job(job[0],Double.parseDouble(job[1]),Integer.parseInt(job[2]));
+        }
+    }
+
+    /**
+     * Adds new job to the array
+     * @param name name of job
+     * @param wage wage of job
+     */
+    public void addNewJob(String name, double wage){
+        expandArray();
+        jobs[jobs.length-1] = new Job(name,wage);
+        saveChanges();
+    }
+
+    /**
+     * Deletes job at index, reduses length of array
+     * @param index of job to be deleted
+     */
+    public void deleteJob(int index){
+        jobs[index] = null;
+        Job[] temp = new Job[jobs.length-1];
 
         for (int i=0;i<jobs.length;i++){
-            temp[i] = jobs[i];
+            if (i>jobs.length-1) {
+                if (jobs[i] == null) {
+                    jobs[i] = jobs[i + 1];
+                    jobs[i + 1] = null;
+                }
+                temp[i] = jobs[i];
+            }
         }
-        temp[jobs.length] = newJob;
-         numOfJobs++;
-
         jobs = temp;
-
         saveChanges();
     }
 
     /**
-     * Adding a new Job to the array
-     * @param name Name of the job
-     * @param wage Wage of the job
-     */
-    public void newJob(String name, double wage){
-        newJob(new Job(name, wage));
-    }
-
-    /**
-     * Adds hours to the Jobs in the array in order
-     * @param hoursArray Array of Integers ready to be applied to the jobs in order
-     * @throws IndexOutOfBoundsException
-     */
-    public void addHours(int[] hoursArray) throws IndexOutOfBoundsException{
-        for (int i=0;i<hoursArray.length;i++){
-            if (jobs[i] == null){
-                break;
-            }else{
-                try{
-                    jobs[i].setHours(hoursArray[i]);
-                }catch(IndexOutOfBoundsException e){
-                    new IndexOutOfBoundsException("Error in intHours");
-                }
-            }
-
-        }
-        saveChanges();
-    }
-
-    /**
-     * Deletes job
-     * @param jobName Name to search for job
-     */
-    public void deleteJob(String jobName){
-        for (int i=0;i<numOfJobs;i++){
-            if (jobs[i].getName().equals(jobName)){
-                for (int ii = i;i<numOfJobs-1;i++){
-                    jobs[ii] = jobs[ii+1];
-                    jobs[ii+1] = null;
-                }
-                numOfJobs--;
-                saveChanges();
-                jobs[i].delete();
-                break;
-            }
-        }
-    }
-
-    /**
-     * Deletes job
-     * @param jobNumber number of job in array
-     */
-    public void deleteJob(int jobNumber){
-        for (int i=jobNumber;i<numOfJobs-1;i++){
-            jobs[i] = jobs[i+1];
-        }
-        numOfJobs--;
-        saveChanges();
-        jobs[jobNumber].delete();
-    }
-
-    /**
-     * Deletes old file, and creates new one with the new data
+     * Writes changes to the array to the disk
      */
     private void saveChanges(){
-        String[] jobNames = new String[numOfJobs];
-        for (int i=0;i<numOfJobs;i++){
-            jobNames[i] = jobs[i].getName();
-        }
+        String[] jobNames = new String[jobs.length];
 
+        for (int i=0;i<jobNames.length;i++){
+            try {
+                jobNames[i] = jobs[i].getName();
+            }catch(Exception e){
+                jobNames[i] = "";
+            }
+        }
         frw.writer(jobNames);
     }
 
-    /**
-     * Gets job
-     * @param jobName Name of job to return
-     * @return Job with name the same as jobName
-     */
-    public Job getJob(String jobName){
-        for (int i=0;i<numOfJobs;i++){
-            if (jobs[i].getName().equals(jobName))
-                return jobs[i];
-        }
-        System.out.println("No Results Found");
-        return null;
-    }
-
-    /**
-     * Gets job
-     * @param num position of job wanted in the array
-     * @return
-     */
-    public Job getJob(int num){
-        return jobs[num];
-    }
-
-    public Job[] getAllJobs(){
-        return jobs;
+    public Job getJob(int index){
+        return jobs[index];
     }
     public int getNumOfJobs(){
-        return numOfJobs;
+        if (jobs == null){
+            return 0;
+        }
+        return jobs.length;
     }
 }

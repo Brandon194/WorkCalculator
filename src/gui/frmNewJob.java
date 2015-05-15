@@ -64,7 +64,7 @@ public class frmNewJob extends JFrame implements ActionListener {
             wage = 10.50;
         }
 
-        handler.newJob(txtJob.getText(),wage);
+        handler.addNewJob(txtJob.getText(),wage);
         pnljob.addComponents();
 
         if (event.getSource() == btnApply) {
