@@ -21,8 +21,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     private static final String[] INFO = {
             "Author: Brandon194",
-            "Version: 2.0",
-            "Date: May 12, 2015"
+            "Version: 2.1"
     };
 
     public WorkCalculator() {

@@ -34,11 +34,19 @@ public class pnlHours extends JPanel implements ActionListener {
         pnlMain.add(new JLabel("Jobs"));
         pnlMain.add(new JLabel("Hours Worked"));
         for (int i=0;i<handler.getNumOfJobs();i++){
-            pnlMain.add(new JLabel(handler.getJob(i).getName()));
+            try {
+                pnlMain.add(new JLabel(handler.getJob(i).getName()));
+            }catch(Exception e){
+                pnlMain.add(new JLabel("failed to load name"));
+            }
             txtHours[i] = new JTextField();
             pnlMain.add(txtHours[i]);
             txtHours[i].addActionListener(this);
-            txtHours[i].setText("" + handler.getJob(i).getHours());
+            try {
+                txtHours[i].setText("" + handler.getJob(i).getHours());
+            } catch (Exception e){
+                txtHours[i].setText("0");
+            }
         }
         pnlMain.add(new JLabel("Total hours"));
         pnlMain.add(new JLabel("" + addHours()));

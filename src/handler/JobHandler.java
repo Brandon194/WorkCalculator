@@ -23,11 +23,9 @@ public class JobHandler {
      * expands the array by 1
      */
     private void expandArray(){
-        System.out.println("Expanding Jobs Array");
         if (jobs == null){
             jobs = new Job[1];
         } else {
-            System.out.println("Size before expand: " + jobs.length);
             Job[] temp = new Job[jobs.length + 1];
             int lastIndex = 1;
             for (int i = 0; i < jobs.length; i++) {
@@ -36,7 +34,6 @@ public class JobHandler {
             }
             jobs = temp;
         }
-        System.out.println("Array Expanded, Current Length: " + jobs.length);
     }
 
     /**
