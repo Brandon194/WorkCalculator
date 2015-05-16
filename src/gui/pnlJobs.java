@@ -39,7 +39,9 @@ public class pnlJobs extends JPanel implements ActionListener {
         for (int i=0;i<handler.getNumOfJobs();i++){
             try {
                 pnlMain.add(new JLabel(handler.getJob(i).getName()));
-            }catch(Exception e){}
+            } catch (Exception e){
+                System.out.println("Index " + i);
+            }
             btnDel[i] = new JButton("Delete");
             pnlMain.add(btnDel[i]);
             btnDel[i].addActionListener(this);

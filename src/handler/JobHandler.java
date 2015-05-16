@@ -72,17 +72,22 @@ public class JobHandler {
      */
     public void deleteJob(int index){
         jobs[index] = null;
-        Job[] temp = new Job[jobs.length-1];
+        int nullCount = 0;
 
-        for (int i=0;i<jobs.length;i++){
-            if (i>jobs.length-1) {
-                if (jobs[i] == null) {
-                    jobs[i] = jobs[i + 1];
-                    jobs[i + 1] = null;
-                }
-                temp[i] = jobs[i];
+        for (int i = 0; i < jobs.length; i++) {
+            if (jobs[i] != null) {
+                jobs[i - nullCount] = jobs[i];
+            } else {
+                nullCount++;
             }
         }
+
+        Job[] temp = new Job[jobs.length-nullCount];
+
+        for (int i=0;i<temp.length;i++){
+            temp[i] = jobs[i];
+        }
+
         jobs = temp;
         saveChanges();
     }
@@ -91,13 +96,17 @@ public class JobHandler {
      * Writes changes to the array to the disk
      */
     private void saveChanges(){
-        String[] jobNames = new String[jobs.length];
+
+        int nullCount = 0;
+        for (Job j : jobs){
+            if (j == null) nullCount++;
+        }
+
+        String[] jobNames = new String[jobs.length-nullCount];
 
         for (int i=0;i<jobNames.length;i++){
-            try {
+            if (jobs[i] != null) {
                 jobNames[i] = jobs[i].getName();
-            }catch(Exception e){
-                jobNames[i] = "";
             }
         }
         frw.writer(jobNames);
