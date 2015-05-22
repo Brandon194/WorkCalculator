@@ -5,6 +5,7 @@ import gui.pnlHours;
 import gui.pnlJobs;
 import gui.pnlSettings;
 import handler.JobHandler;
+import misc.Parse;
 
 /**
  * Created by Brandon194 on 5/22/2015.
@@ -25,12 +26,30 @@ public class Settings {
         pnljobs = jobs;
         handler = jHander;
         this.pnlsettings = pnlsettings;
+
+        applyConfig();
+    }
+
+    private void applyConfig(){
+        if (CONFIGS.doesExist("debug")){
+            setDebug(Parse.parseBoolean(CONFIGS.getValue("debug")));
+        } else {
+            setDebug(false);
+        }
+
+        pnlhours.addComponents();
     }
 
     public void setDebug(boolean debug){
         this.debug = debug;
+        CONFIGS.newConfigValue("debug", "" + debug);
+        pnlsettings.setDebug(debug);
+        pnlhours.setDebug(debug);
+        pnljobs.setDebug(debug);
+        handler.setDebug(debug);
     }
     public void toggleDebug(){
+        debug = !debug;
         CONFIGS.newConfigValue("debug", "" + debug);
         pnlsettings.toggleDebug();
         handler.toggleDebug();

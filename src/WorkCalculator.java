@@ -9,6 +9,7 @@ import handler.JobHandler;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 /**
  * Created by Brandon194 on 4/15/2015.
@@ -25,7 +26,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     private static final String[] INFO = {
             "Author: Brandon194",
-            "Version: B2.2"
+            "Version: B2.3"
     };
 
     public WorkCalculator() {
@@ -39,7 +40,8 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.add(tabbedPane);
-        this.setSize(275, 175);
+        this.setSize(275, 300);
+        this.setMinimumSize(new Dimension(275, 180));
 
         tabbedPane.add("Hours", pnlhours);
         tabbedPane.add("Jobs", pnljobs);

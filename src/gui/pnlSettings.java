@@ -35,31 +35,25 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
         pnlMain.revalidate();
     }
 
-    public void addComponents(){
+    public void addComponents() {
         pnlMain.removeAll();
-
-
-        btnDebug = new JButton("DEBUG");
         pnlMain.setLayout(new GridLayout(1, 2));
-        pnlMain.add(new JLabel("Debug Mode: " + debug));
-        pnlMain.add(btnDebug);
-        btnDebug.addActionListener(this);
+        debugButton(true);
+    }
 
+    private void debugButton(boolean debug){
+        if (debug) {
+            btnDebug = new JButton("DEBUG");
+            pnlMain.add(new JLabel("Debug Mode: " + debug));
+            pnlMain.add(btnDebug);
+            btnDebug.addActionListener(this);
+        }
     }
 
     public void actionPerformed(ActionEvent event){
         if (event.getSource() == btnDebug){
             SETTINGS.toggleDebug();
         }
-
-
-        try{
-            Thread.sleep(500);
-            addComponents();
-            pnljobs.addComponents();
-            pnlhours.addComponents();
-        }catch(InterruptedException exception){
-
-        }
+        addComponents();
     }
 }
