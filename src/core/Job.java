@@ -15,6 +15,8 @@ public class Job {
     /** FileIO Class. How to read and write files */
     private FileReadWrite frw;
 
+    private static boolean debug = false;
+
     public Job(String name, double wagePerHour, int hoursWorked){
         this.name = name;
         this.wagePerHour = wagePerHour;
@@ -27,10 +29,24 @@ public class Job {
         this.hoursWorked = 0;
         writeJob();
     }
+    public Job(String name, double wagePerHour, int hoursWorked, boolean debug){
+        this.name = name;
+        this.wagePerHour = wagePerHour;
+        this.hoursWorked = hoursWorked;
+        this.debug = debug;
+        writeJob();
+    }
+    public Job(String name, double wagePerHour, boolean debug){
+        this.name = name;
+        this.wagePerHour = wagePerHour;
+        this.hoursWorked = 0;
+        this.debug = debug;
+        writeJob();
+    }
 
     /** Write all variables to the file */
     public void writeJob() {
-        frw = new FileReadWrite("WorkCalculator", name);
+        frw = new FileReadWrite("WorkCalculator", name, debug);
         String[] writerData = {name, "" + wagePerHour, "" + hoursWorked};
         frw.writer(writerData);
     }
@@ -40,7 +56,7 @@ public class Job {
      * @return Job read from file
      */
     public static Job readJob(String jobName){
-        FileReadWrite frw = new FileReadWrite("WorkCalculator",jobName);
+        FileReadWrite frw = new FileReadWrite("WorkCalculator",jobName, debug);
         String[] readerData = frw.reader();
 
         System.out.println(readerData[0] + " " + readerData[1] + " " + readerData[2]);

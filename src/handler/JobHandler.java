@@ -7,11 +7,14 @@ import fileIO.FileReadWrite;
  * Created by Brandon194 on 5/15/2015.
  */
 public class JobHandler {
-    private final FileReadWrite frw = new FileReadWrite("WorkCalculator", "JobHandler");
+    private FileReadWrite frw;
 
     private Job[] jobs = null;
 
+    private boolean debug = false;
+
     public JobHandler(){
+        frw = new FileReadWrite("WorkCalculator", "JobHandler", debug);
         String[] jobNames = frw.reader();
 
         for (int i=0;i<jobNames.length;i++) {
@@ -43,7 +46,7 @@ public class JobHandler {
     private void addExistingJob(String jobName){
         expandArray();
 
-        FileReadWrite frw2 = new FileReadWrite("WorkCalculator", jobName);
+        FileReadWrite frw2 = new FileReadWrite("WorkCalculator", jobName, debug);
         String[] job = frw2.reader();
 
         if (job.length == 1){
@@ -62,7 +65,7 @@ public class JobHandler {
      */
     public void addNewJob(String name, double wage){
         expandArray();
-        jobs[jobs.length-1] = new Job(name,wage);
+        jobs[jobs.length-1] = new Job(name,wage,debug);
         saveChanges();
     }
 
@@ -97,6 +100,8 @@ public class JobHandler {
      */
     private void saveChanges(){
 
+        frw = new FileReadWrite("WorkCalculator", "JobHandler", debug);
+
         int nullCount = 0;
         for (Job j : jobs){
             if (j == null) nullCount++;
@@ -120,5 +125,15 @@ public class JobHandler {
             return 0;
         }
         return jobs.length;
+    }
+
+    public void toggleDebug(){
+        debug = !debug;
+        jobs = null;
+    }
+    public void setDebug(boolean debug){
+        if (this.debug != debug){
+            this.toggleDebug();
+        }
     }
 }

@@ -18,7 +18,7 @@ public class FileReadWrite {
     /** Fold and File name on disk */
 	private String folderName, fileName;
 
-    private boolean debug = true;
+    private boolean debug = false;
 
 	public FileReadWrite(String folderNameIn, String fileNameIn){
 		
@@ -42,6 +42,51 @@ public class FileReadWrite {
                 System.out.println("Path does not exist, creation failed.");
 		}
 	}
+    public FileReadWrite(String folderNameIn, String fileNameIn, String fileType){
+
+        folderName = folderNameIn;
+        fileName = fileNameIn;
+
+        if (debug) {
+            filePath = ROOT_FOLDER + "\\" + folderName + "\\Testing\\" + fileName + fileType;
+        } else {
+            filePath = ROOT_FOLDER + "\\" + folderName + "\\" + fileName + fileType;
+        }
+        try{
+            if (debug) {
+                Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\Testing\\"));
+            } else {
+                Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\"));
+            }
+            Files.createFile(Paths.get(filePath));
+        }catch(Exception e){
+            if (!Files.exists(Paths.get(filePath)))
+                System.out.println("Path does not exist, creation failed.");
+        }
+    }
+    public FileReadWrite(String folderNameIn, String fileNameIn, boolean debug){
+
+        folderName = folderNameIn;
+        fileName = fileNameIn;
+        this.debug = debug;
+
+        if (debug) {
+            filePath = ROOT_FOLDER + "\\" + folderName + "\\Testing\\" + fileName + ".txt";
+        } else {
+            filePath = ROOT_FOLDER + "\\" + folderName + "\\" + fileName + ".txt";
+        }
+        try{
+            if (debug) {
+                Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\Testing\\"));
+            } else {
+                Files.createDirectories(Paths.get(ROOT_FOLDER + "\\" + folderName + "\\"));
+            }
+            Files.createFile(Paths.get(filePath));
+        }catch(Exception e){
+            if (!Files.exists(Paths.get(filePath)))
+                System.out.println("Path does not exist, creation failed.");
+        }
+    }
 
     /**
      * Writes an array of Strings to disk. Each element is a line
@@ -95,5 +140,9 @@ public class FileReadWrite {
         }catch(Exception e){
             System.out.println("Failed to Delete");
         }
+    }
+
+    public void setDebug(boolean debug){
+        this.debug = debug;
     }
 }

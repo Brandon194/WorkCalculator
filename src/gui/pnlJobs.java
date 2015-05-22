@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Brandon194 on 4/17/2015.
  */
-public class pnlJobs extends JPanel implements ActionListener {
+public class pnlJobs extends DefaultPanel implements ActionListener {
     JButton[] btnDel;
     JButton btnNew = new JButton("New");
 
@@ -19,26 +19,27 @@ public class pnlJobs extends JPanel implements ActionListener {
     frmNewJob frm;
     boolean frameOpen = false;
 
-    JobHandler handler;
 
     public pnlJobs(JobHandler handler, JFrame frame){
-        this.handler = handler;
+        super(handler);
 
         addComponents();
 
         this.add(pnlMain);
     }
 
+    @Override
     public void addComponents(){
         pnlMain.removeAll();
 
 
-        pnlMain.setLayout(new GridLayout(handler.getNumOfJobs()+1,2));
+        pnlMain.setLayout(new GridLayout(handler.getNumOfJobs()+1,3));
         btnDel = new JButton[handler.getNumOfJobs()];
 
         for (int i=0;i<handler.getNumOfJobs();i++){
             try {
                 pnlMain.add(new JLabel(handler.getJob(i).getName()));
+                pnlMain.add(new JLabel("" + handler.getJob(i).getWage()));
             } catch (Exception e){
                 System.out.println("Index " + i);
             }
@@ -46,6 +47,7 @@ public class pnlJobs extends JPanel implements ActionListener {
             pnlMain.add(btnDel[i]);
             btnDel[i].addActionListener(this);
         }
+        pnlMain.add(new JPanel());
         pnlMain.add(new JPanel());
         btnNew.addActionListener(this);
         pnlMain.add(btnNew);

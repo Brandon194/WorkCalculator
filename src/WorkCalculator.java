@@ -1,6 +1,7 @@
 import fileIO.FileReadWrite;
 import gui.pnlHours;
 import gui.pnlJobs;
+import gui.pnlSettings;
 import handler.JobHandler;
 
 import javax.swing.*;
@@ -18,15 +19,21 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     private final pnlHours pnlhours;
     private final pnlJobs pnljobs;
+    private final pnlSettings pnlsettings;
 
     private static final String[] INFO = {
             "Author: Brandon194",
-            "Version: 2.1"
+            "Version: B2.2"
     };
 
-    public WorkCalculator() {
+    private static final String[] CONFIG = {
+            "debug=true"
+    };
+
+    public WorkCalculator(boolean debug) {
         pnlhours = new pnlHours(jobHandler);
         pnljobs = new pnlJobs(jobHandler, this);
+        pnlsettings = new pnlSettings(jobHandler, pnlhours, pnljobs);
 
         this.setLocationRelativeTo(null);
         this.setTitle("Work Times Calculator");
@@ -38,6 +45,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
         tabbedPane.add("Hours", pnlhours);
         tabbedPane.add("Jobs", pnljobs);
+        tabbedPane.add("Settings", pnlsettings);
 
         this.revalidate();
 
@@ -51,7 +59,11 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
 
     public static void main(String[] args){
-
+        checkVersion();
+        readConfigs();
+        new WorkCalculator(false);
+    }
+    public static void checkVersion(){
         FileReadWrite frw = new FileReadWrite("WorkCalculator", "WorkCalculator");
         String[] versionInfo = null;
         boolean changes = false;
@@ -81,9 +93,8 @@ public class WorkCalculator extends JFrame implements ChangeListener{
                 }
             }
         }
-        new WorkCalculator();
-        double palHours = 22, storeHours = 21;
-        int  i = (int) ((20 * palHours) + (11 + storeHours));
-        System.out.println("Net Income: " + i);
+    }
+    public static void readConfigs(){
+        FileReadWrite cfg = new FileReadWrite("WorkCalculator", "WorkCalculator", ".cfg");
     }
 }

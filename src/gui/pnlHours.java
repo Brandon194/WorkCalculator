@@ -10,21 +10,19 @@ import java.awt.event.ActionListener;
 /**
  * Created by Brandon194 on 4/17/2015.
  */
-public class pnlHours extends JPanel implements ActionListener {
+public class pnlHours extends DefaultPanel implements ActionListener {
     JTextField[] txtHours;
-    JobHandler handler;
-    JPanel pnlMain = new JPanel();
 
-    public boolean debug = false;
 
     public pnlHours(JobHandler handler){
-        this.handler = handler;
+        super(handler);
         txtHours = new JTextField[handler.getNumOfJobs()];
         this.add(pnlMain);
 
         addComponents();
     }
 
+    @Override
     public void addComponents(){
         loadData();
 
@@ -68,13 +66,15 @@ public class pnlHours extends JPanel implements ActionListener {
                 System.out.println("pnlHours (56): Failed to Parse Hours On Load | Job " + i);
             }
         }
-
-
     }
     private int addHours(){
         int total = 0;
         for(int i=0;i<handler.getNumOfJobs();i++){
-            total+=handler.getJob(i).getHours();
+            try {
+                total += handler.getJob(i).getHours();
+            }catch (NullPointerException exception){
+                System.out.println("pnlHours (77): No job at " + i + " to get hours");
+            }
         }
         return total;
     }
