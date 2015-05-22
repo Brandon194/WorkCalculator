@@ -1,5 +1,6 @@
 package gui;
 
+import core.Settings;
 import handler.JobHandler;
 
 import javax.swing.*;
@@ -19,10 +20,13 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
 
     private JButton btnDebug;
 
+    private final Settings SETTINGS;
+
     public pnlSettings(JobHandler handler, pnlHours pnlhours, pnlJobs pnljobs){
         super(handler);
         this.pnlhours = pnlhours;
         this.pnljobs = pnljobs;
+        this.SETTINGS = new Settings(handler, pnlhours, pnljobs, this);
 
 
         this.add(pnlMain);
@@ -45,10 +49,7 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent event){
         if (event.getSource() == btnDebug){
-            this.toggleDebug();
-            handler.toggleDebug();
-            pnlhours.toggleDebug();
-            pnljobs.toggleDebug();
+            SETTINGS.toggleDebug();
         }
 
 

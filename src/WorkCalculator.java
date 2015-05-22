@@ -1,3 +1,5 @@
+import core.Settings;
+import fileIO.Config;
 import fileIO.FileReadWrite;
 import gui.pnlHours;
 import gui.pnlJobs;
@@ -26,13 +28,10 @@ public class WorkCalculator extends JFrame implements ChangeListener{
             "Version: B2.2"
     };
 
-    private static final String[] CONFIG = {
-            "debug=true"
-    };
-
-    public WorkCalculator(boolean debug) {
+    public WorkCalculator() {
         pnlhours = new pnlHours(jobHandler);
         pnljobs = new pnlJobs(jobHandler, this);
+
         pnlsettings = new pnlSettings(jobHandler, pnlhours, pnljobs);
 
         this.setLocationRelativeTo(null);
@@ -41,7 +40,6 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         this.setVisible(true);
         this.add(tabbedPane);
         this.setSize(275, 175);
-        //Debug();
 
         tabbedPane.add("Hours", pnlhours);
         tabbedPane.add("Jobs", pnljobs);
@@ -60,8 +58,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     public static void main(String[] args){
         checkVersion();
-        readConfigs();
-        new WorkCalculator(false);
+        new WorkCalculator();
     }
     public static void checkVersion(){
         FileReadWrite frw = new FileReadWrite("WorkCalculator", "WorkCalculator");
@@ -93,8 +90,5 @@ public class WorkCalculator extends JFrame implements ChangeListener{
                 }
             }
         }
-    }
-    public static void readConfigs(){
-        FileReadWrite cfg = new FileReadWrite("WorkCalculator", "WorkCalculator", ".cfg");
     }
 }
