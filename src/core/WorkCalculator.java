@@ -1,6 +1,7 @@
-import core.Settings;
-import fileIO.Config;
+package core;
+
 import fileIO.FileReadWrite;
+import gui.frmWorkToday;
 import gui.pnlHours;
 import gui.pnlJobs;
 import gui.pnlSettings;
@@ -18,7 +19,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     public final JobHandler jobHandler = new JobHandler();
     private final JTabbedPane tabbedPane = new JTabbedPane();
-    public final static double VERSION_ID = 2.0;
+    public final static double VERSION_ID = 2.4;
 
     private final pnlHours pnlhours;
     private final pnlJobs pnljobs;
@@ -26,7 +27,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     private static final String[] INFO = {
             "Author: Brandon194",
-            "Version: B2.3"
+            "Version: Beta " + VERSION_ID
     };
 
     public WorkCalculator() {
@@ -37,7 +38,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
         this.setLocationRelativeTo(null);
         this.setTitle("Work Times Calculator");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setVisible(true);
         this.add(tabbedPane);
         this.setSize(275, 300);
@@ -60,7 +61,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     public static void main(String[] args){
         checkVersion();
-        new WorkCalculator();
+        new Thread(new frmWorkToday()).start();
     }
     public static void checkVersion(){
         FileReadWrite frw = new FileReadWrite("WorkCalculator", "WorkCalculator");

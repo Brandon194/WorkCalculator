@@ -44,7 +44,9 @@ public class Job {
         writeJob();
     }
 
-    /** Write all variables to the file */
+    /**
+     * Write all variables to the file
+     */
     public void writeJob() {
         frw = new FileReadWrite("WorkCalculator", name, debug);
         String[] writerData = {name, "" + wagePerHour, "" + hoursWorked};
