@@ -14,6 +14,12 @@ public class JobHandler {
     private boolean debug = false;
 
     public JobHandler(){
+        load();
+    }
+
+
+    public void load(){
+        jobs = null;
         frw = new FileReadWrite("WorkCalculator", "JobHandler", debug);
         String[] jobNames = frw.reader();
 
@@ -21,7 +27,6 @@ public class JobHandler {
             addExistingJob(jobNames[i]);
         }
     }
-
     /**
      * expands the array by 1
      */

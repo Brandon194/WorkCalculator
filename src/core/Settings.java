@@ -37,22 +37,25 @@ public class Settings {
             setDebug(false);
         }
 
+        handler.load();
         pnlhours.addComponents();
     }
 
     public void setDebug(boolean debug){
         this.debug = debug;
+        handler.setDebug(debug);
+        handler.load();
         CONFIGS.newConfigValue("debug", "" + debug);
         pnlsettings.setDebug(debug);
         pnlhours.setDebug(debug);
         pnljobs.setDebug(debug);
-        handler.setDebug(debug);
     }
     public void toggleDebug(){
         debug = !debug;
+        handler.toggleDebug();
+        handler.load();
         CONFIGS.newConfigValue("debug", "" + debug);
         pnlsettings.toggleDebug();
-        handler.toggleDebug();
         pnlhours.toggleDebug();
         pnljobs.toggleDebug();
     }

@@ -44,7 +44,7 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
     private void debugButton(boolean debug){
         if (debug) {
             btnDebug = new JButton("DEBUG");
-            pnlMain.add(new JLabel("Debug Mode: " + debug));
+            pnlMain.add(new JLabel("Debug Mode: " + this.debug));
             pnlMain.add(btnDebug);
             btnDebug.addActionListener(this);
         }
