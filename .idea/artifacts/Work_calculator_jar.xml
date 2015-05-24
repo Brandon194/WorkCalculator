@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Work_calculator_jar</output-path>
     <root id="archive" name="Work calculator.jar">
       <element id="module-output" name="Work Calculator" />
+      <element id="module-output" name="Utility" />
     </root>
   </artifact>
 </component>
