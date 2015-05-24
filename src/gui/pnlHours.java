@@ -81,8 +81,10 @@ public class pnlHours extends DefaultPanel implements ActionListener {
     private double incomeHours(){
         double total = 0;
         for (int i=0;i<handler.getNumOfJobs();i++){
-            double temp = handler.getJob(i).getWage() * handler.getJob(i).getHours();
-            total+=temp;
+            try{
+                double temp = handler.getJob(i).getWage() * handler.getJob(i).getHours();
+                total+=temp;
+            } catch (NullPointerException e){}
         }
 
         return total;
