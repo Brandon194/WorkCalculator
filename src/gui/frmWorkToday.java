@@ -26,7 +26,7 @@ public class frmWorkToday implements Runnable{
         frame.setContentPane(panel1);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setVisible(true);
+        frame.setVisible(false);
         frame.setSize(FRAME_DIM);
         frame.setPreferredSize(FRAME_DIM);
         frame.setMaximumSize(FRAME_DIM);
