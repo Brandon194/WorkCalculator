@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -66,7 +68,8 @@ public class frmWorkToday implements Runnable{
 
     public void run(){
         while (true){
-            if (localDate != LocalDate.now() && LocalTime.now().isAfter(LocalTime.parse("12:00"))){
+            System.out.println(!localDate.equals(LocalDate.now()));
+            if (!localDate.equals(LocalDate.now()) && LocalTime.now().isAfter(LocalTime.parse("12:00"))){
                 frame.setVisible(true);
                 localDate = LocalDate.now();
             } else {
