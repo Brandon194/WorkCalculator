@@ -16,7 +16,7 @@ import java.time.LocalTime;
  */
 public class frmWorkToday implements Runnable{
 
-    private static JFrame frame = new JFrame("Did you work today");
+    private static JFrame frame = new JFrame();
 
     private WorkCalculator workCalculator = new WorkCalculator();
 
@@ -26,7 +26,7 @@ public class frmWorkToday implements Runnable{
     private boolean today = false;
     private LocalDate localDate = LocalDate.of(1994,4,30);
 
-    private final Dimension FRAME_DIM = new Dimension(150,100);
+    private final Dimension FRAME_DIM = new Dimension(170,100);
 
     public frmWorkToday() {
         addComponents();
@@ -38,20 +38,24 @@ public class frmWorkToday implements Runnable{
         frame.setPreferredSize(FRAME_DIM);
         frame.setMaximumSize(FRAME_DIM);
         frame.setMinimumSize(FRAME_DIM);
+
+        frame.setIconImage(core.WorkCalculator.image);
     }
 
-    public void addComponents(){
+    public void addComponents() {
         panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         panel1.setLayout(new BorderLayout());
         panel2.setLayout(new BorderLayout());
         yesButton = new JButton("Yes");
         noButton = new JButton("No");
+        JLabel label = new JLabel("Did you work today");
 
         panel2.add(yesButton, BorderLayout.WEST);
         panel2.add(noButton, BorderLayout.EAST);
+        label.setHorizontalAlignment(JLabel.CENTER);
 
-        panel1.add(new JLabel("Did you work today?"), BorderLayout.CENTER);
+        panel1.add(label, BorderLayout.CENTER);
         panel1.add(panel2, BorderLayout.SOUTH);
 
         yesButton.addActionListener(new ActionListener(){

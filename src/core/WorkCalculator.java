@@ -17,6 +17,7 @@ import java.awt.*;
  * Created by Brandon194 on 4/15/2015.
  */
 public class WorkCalculator extends JFrame implements ChangeListener{
+    public static Image image;
 
     public final JobHandler jobHandler = new JobHandler();
     private final TrayHandler trayHandler;
@@ -27,13 +28,13 @@ public class WorkCalculator extends JFrame implements ChangeListener{
     private final pnlHours pnlhours;
     private final pnlJobs pnljobs;
     private final pnlSettings pnlsettings;
-
     private static final String[] INFO = {
             "Author: Brandon194",
             "Version: Beta " + VERSION_ID
     };
 
     public WorkCalculator() {
+        image = new ImageIcon(getClass().getResource("/image/clock.png")).getImage();
         trayHandler = new TrayHandler(this);
         pnlhours = new pnlHours(jobHandler);
         pnljobs = new pnlJobs(jobHandler, this);
@@ -47,6 +48,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         this.add(tabbedPane);
         this.setSize(275, 300);
         this.setMinimumSize(new Dimension(275, 180));
+        this.setIconImage(core.WorkCalculator.image);
 
         tabbedPane.add("Hours", pnlhours);
         tabbedPane.add("Jobs", pnljobs);
@@ -61,9 +63,8 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         pnlhours.addComponents();
         pnljobs.addComponents();
     }
-
-
     public static void main(String[] args){
+
         checkVersion();
         new Thread(new frmWorkToday()).start();
     }

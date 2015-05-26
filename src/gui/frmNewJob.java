@@ -27,6 +27,8 @@ public class frmNewJob extends JFrame implements ActionListener {
 
 
     public frmNewJob(JobHandler handler, pnlJobs pnljob){
+        this.setIconImage(new ImageIcon(getClass().getResource("/image/clock.png")).getImage());
+
         this.handler = handler;
         this.pnljob = pnljob;
 
