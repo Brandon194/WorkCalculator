@@ -6,6 +6,7 @@ import gui.pnlHours;
 import gui.pnlJobs;
 import gui.pnlSettings;
 import handler.JobHandler;
+import handler.TrayHandler;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -18,8 +19,10 @@ import java.awt.*;
 public class WorkCalculator extends JFrame implements ChangeListener{
 
     public final JobHandler jobHandler = new JobHandler();
+    private final TrayHandler trayHandler;
+
     private final JTabbedPane tabbedPane = new JTabbedPane();
-    public final static double VERSION_ID = 2.4;
+    public final static double VERSION_ID = 2.5;
 
     private final pnlHours pnlhours;
     private final pnlJobs pnljobs;
@@ -31,6 +34,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
     };
 
     public WorkCalculator() {
+        trayHandler = new TrayHandler(this);
         pnlhours = new pnlHours(jobHandler);
         pnljobs = new pnlJobs(jobHandler, this);
 
@@ -39,7 +43,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         this.setLocationRelativeTo(null);
         this.setTitle("Work Times Calculator");
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        this.setVisible(true);
+        this.setVisible(false);
         this.add(tabbedPane);
         this.setSize(275, 300);
         this.setMinimumSize(new Dimension(275, 180));

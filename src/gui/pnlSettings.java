@@ -19,7 +19,6 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
     private JPanel pnlMain = new JPanel();
 
     private JButton btnDebug;
-    private JButton btnClose;
 
     private final Settings SETTINGS;
 
@@ -43,10 +42,7 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
         pnlMain.setLayout(new GridLayout(2, 2));
         debugButton(true);
 
-        btnClose = new JButton("Close");
         pnlMain.add(new JLabel());
-        pnlMain.add(btnClose);
-        btnClose.addActionListener(this);
     }
 
     private void debugButton(boolean debug){
@@ -59,11 +55,10 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent event){
-        if (event.getSource() == btnDebug){
+        if (event.getSource() == btnDebug) {
             SETTINGS.toggleDebug();
-        }else if (event.getSource() == btnClose){
-            System.exit(1);
         }
+
         addComponents();
     }
 }

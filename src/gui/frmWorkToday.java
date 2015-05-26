@@ -1,5 +1,7 @@
 package gui;
 
+import core.WorkCalculator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +17,9 @@ import java.time.LocalTime;
 public class frmWorkToday implements Runnable{
 
     private static JFrame frame = new JFrame("Did you work today");
+
+    private WorkCalculator workCalculator = new WorkCalculator();
+
     private JPanel panel1;
     private JButton noButton;
     private JButton yesButton;
@@ -52,7 +57,8 @@ public class frmWorkToday implements Runnable{
         yesButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                new core.WorkCalculator();
+                workCalculator.setVisible(true);
+                workCalculator.requestFocus();
                 frame.setVisible(false);
             }
         });
@@ -68,8 +74,8 @@ public class frmWorkToday implements Runnable{
 
     public void run(){
         while (true){
-            System.out.println(!localDate.equals(LocalDate.now()));
             if (!localDate.equals(LocalDate.now()) && LocalTime.now().isAfter(LocalTime.parse("12:00"))){
+                frame.requestFocus();
                 frame.setVisible(true);
                 localDate = LocalDate.now();
             } else {
