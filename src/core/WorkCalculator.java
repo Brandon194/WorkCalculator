@@ -17,10 +17,10 @@ import java.awt.*;
  * Created by Brandon194 on 4/15/2015.
  */
 public class WorkCalculator extends JFrame implements ChangeListener{
-    public static Image image;
 
-    public final JobHandler jobHandler = new JobHandler();
-    private final TrayHandler trayHandler;
+    private static final JobHandler jobHandler = new JobHandler();
+    private static final TrayHandler trayHandler = new TrayHandler();
+    public final static Settings SETTINGS = new Settings(jobHandler, trayHandler);
 
     private final JTabbedPane tabbedPane = new JTabbedPane();
     public final static double VERSION_ID = 2.5;
@@ -28,18 +28,21 @@ public class WorkCalculator extends JFrame implements ChangeListener{
     private final pnlHours pnlhours;
     private final pnlJobs pnljobs;
     private final pnlSettings pnlsettings;
+
     private static final String[] INFO = {
             "Author: Brandon194",
-            "Version: Beta " + VERSION_ID
+            "Version: Beta " + VERSION_ID,
+            "PUBLIC RELEASE 1"
     };
 
     public WorkCalculator() {
-        image = new ImageIcon(getClass().getResource("/image/clock.png")).getImage();
-        trayHandler = new TrayHandler(this);
         pnlhours = new pnlHours(jobHandler);
         pnljobs = new pnlJobs(jobHandler, this);
+        pnlsettings = new pnlSettings(this);
 
-        pnlsettings = new pnlSettings(jobHandler, pnlhours, pnljobs);
+        SETTINGS.setPanels(this, pnljobs, pnlsettings, pnlhours);
+        trayHandler.setWorkCalculator(this);
+
 
         this.setLocationRelativeTo(null);
         this.setTitle("Work Times Calculator");
@@ -48,7 +51,8 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         this.add(tabbedPane);
         this.setSize(275, 300);
         this.setMinimumSize(new Dimension(275, 180));
-        this.setIconImage(core.WorkCalculator.image);
+        this.setMaximumSize(new Dimension(275, 300));
+        this.setIconImage(SETTINGS.getImage());
 
         tabbedPane.add("Hours", pnlhours);
         tabbedPane.add("Jobs", pnljobs);
@@ -56,7 +60,12 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
         this.revalidate();
 
+        trayHandler.setWorkCalculator(this);
+        trayHandler.setIcon(SETTINGS.getImage());
+
         tabbedPane.addChangeListener(this);
+
+        SETTINGS.addComponents();
     }
 
     public void stateChanged(ChangeEvent e) {

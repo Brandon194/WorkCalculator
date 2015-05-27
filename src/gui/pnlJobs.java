@@ -1,5 +1,6 @@
 package gui;
 
+import core.WorkCalculator;
 import handler.JobHandler;
 
 import javax.swing.*;
@@ -19,10 +20,12 @@ public class pnlJobs extends DefaultPanel implements ActionListener {
     frmNewJob frm;
     boolean frameOpen = false;
 
+    private WorkCalculator wc;
 
-    public pnlJobs(JobHandler handler, JFrame frame){
+    public pnlJobs(JobHandler handler, WorkCalculator wc){
         super(handler);
 
+        this.wc = wc;
         addComponents();
 
         this.add(pnlMain);
@@ -72,6 +75,6 @@ public class pnlJobs extends DefaultPanel implements ActionListener {
             frameOpen = true;
         }
 
-        addComponents();
+
     }
 }

@@ -1,6 +1,7 @@
 package gui;
 
 import core.Settings;
+import core.WorkCalculator;
 import handler.JobHandler;
 
 import javax.swing.*;
@@ -20,13 +21,20 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
 
     private JButton btnDebug;
 
-    private final Settings SETTINGS;
+    private JLabel lblClose = new JLabel();
+    private JButton btnClose = new JButton("Close");
 
-    public pnlSettings(JobHandler handler, pnlHours pnlhours, pnlJobs pnljobs){
-        super(handler);
-        this.pnlhours = pnlhours;
-        this.pnljobs = pnljobs;
-        this.SETTINGS = new Settings(handler, pnlhours, pnljobs, this);
+    private WorkCalculator wc;
+
+    private boolean tray = false;
+    private boolean debug = false;
+
+
+    public pnlSettings(WorkCalculator w){
+        super(w.SETTINGS.getJobHandler());
+        wc = w;
+        this.pnlhours = wc.SETTINGS.getPnlhours();
+        this.pnljobs = wc.SETTINGS.getPnljobs();
 
 
         this.add(pnlMain);
@@ -40,10 +48,27 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
 
         pnlMain.removeAll();
         pnlMain.setLayout(new GridLayout(2, 2));
-        debugButton(true);
+        debugButton(debug);
 
-        pnlMain.add(new JLabel());
+        if (!tray){
+            pnlMain.add(lblClose);
+            pnlMain.add(btnClose);
+            btnClose.addActionListener(this);
+        }
+
+        if (!debug && tray) {
+            JPanel noneListed = new JPanel();
+            noneListed.setLayout(new BorderLayout());
+            JLabel none1 = new JLabel("This is not the Panel you are looking for.");
+            JLabel none2 = new JLabel("Move along, move along.");
+            noneListed.add(none1, BorderLayout.NORTH);
+            noneListed.add(none2, BorderLayout.SOUTH);
+
+            pnlMain.add(noneListed);
+        }
     }
+
+
 
     private void debugButton(boolean debug){
         if (debug) {
@@ -54,9 +79,15 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
         }
     }
 
+    public void setTray(boolean t){
+        tray = t;
+    }
+
     public void actionPerformed(ActionEvent event){
         if (event.getSource() == btnDebug) {
-            SETTINGS.toggleDebug();
+            wc.SETTINGS.toggleDebug();
+        }else if (event.getSource() == btnClose){
+            wc.SETTINGS.close();
         }
 
         addComponents();

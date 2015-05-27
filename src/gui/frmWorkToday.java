@@ -26,7 +26,7 @@ public class frmWorkToday implements Runnable{
     private boolean today = false;
     private LocalDate localDate = LocalDate.of(1994,4,30);
 
-    private final Dimension FRAME_DIM = new Dimension(170,100);
+    private final Dimension FRAME_DIM = new Dimension(130,100);
 
     public frmWorkToday() {
         addComponents();
@@ -35,24 +35,21 @@ public class frmWorkToday implements Runnable{
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setVisible(false);
         frame.setSize(FRAME_DIM);
-        frame.setPreferredSize(FRAME_DIM);
-        frame.setMaximumSize(FRAME_DIM);
-        frame.setMinimumSize(FRAME_DIM);
+        frame.setResizable(false);
 
-        frame.setIconImage(core.WorkCalculator.image);
+        frame.setIconImage(core.WorkCalculator.SETTINGS.getImage());
     }
 
     public void addComponents() {
         panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         panel1.setLayout(new BorderLayout());
-        panel2.setLayout(new BorderLayout());
         yesButton = new JButton("Yes");
         noButton = new JButton("No");
         JLabel label = new JLabel("Did you work today");
 
-        panel2.add(yesButton, BorderLayout.WEST);
-        panel2.add(noButton, BorderLayout.EAST);
+        panel2.add(yesButton);
+        panel2.add(noButton);
         label.setHorizontalAlignment(JLabel.CENTER);
 
         panel1.add(label, BorderLayout.CENTER);

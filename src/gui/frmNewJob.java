@@ -25,6 +25,8 @@ public class frmNewJob extends JFrame implements ActionListener {
 
     JButton btnApply = new JButton("Apply");
 
+    Dimension d = new Dimension(310,120);
+
 
     public frmNewJob(JobHandler handler, pnlJobs pnljob){
         this.setIconImage(new ImageIcon(getClass().getResource("/image/clock.png")).getImage());
@@ -36,7 +38,8 @@ public class frmNewJob extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        this.setSize(310, 120);
+        this.setSize(d);
+        this.setResizable(false);
         this.setTitle("New: (Name/Wage)");
         this.setResizable(false);
         pnlMain.setLayout(new BorderLayout());
