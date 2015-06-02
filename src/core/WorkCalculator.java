@@ -23,7 +23,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
     public final static Settings SETTINGS = new Settings(jobHandler, trayHandler);
 
     private final JTabbedPane tabbedPane = new JTabbedPane();
-    public final static double VERSION_ID = 2.5;
+    public final static double VERSION_ID = 2.6;
 
     private final pnlHours pnlhours;
     private final pnlJobs pnljobs;
