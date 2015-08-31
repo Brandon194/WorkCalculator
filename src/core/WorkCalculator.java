@@ -23,7 +23,7 @@ public class WorkCalculator extends JFrame implements ChangeListener{
     public final static Settings SETTINGS = new Settings(jobHandler, trayHandler);
 
     private final JTabbedPane tabbedPane = new JTabbedPane();
-    public final static double VERSION_ID = 2.6;
+    public final static double VERSION_ID = 2.9;
 
     private final pnlHours pnlhours;
     private final pnlJobs pnljobs;
@@ -31,8 +31,8 @@ public class WorkCalculator extends JFrame implements ChangeListener{
 
     private static final String[] INFO = {
             "Author: Brandon194",
-            "Version: Beta " + VERSION_ID,
-            "PUBLIC RELEASE 1"
+            "Version: Beta " + VERSION_ID
+            ,"PUBLIC RELEASE 2"
     };
 
     public WorkCalculator() {
@@ -73,9 +73,14 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         pnljobs.addComponents();
     }
     public static void main(String[] args){
-
         checkVersion();
-        new Thread(new frmWorkToday()).start();
+
+        WorkCalculator wc = new WorkCalculator();
+        frmWorkToday frmWork = new frmWorkToday(wc);
+
+        wc.SETTINGS.setFRMWorkToday(frmWork);
+
+        new Thread().start();
     }
     public static void checkVersion(){
         FileReadWrite frw = new FileReadWrite("WorkCalculator", "WorkCalculator");

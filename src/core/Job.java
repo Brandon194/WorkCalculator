@@ -97,6 +97,9 @@ public class Job {
     public int getHours(){
         return hoursWorked;
     }
+    public void addHours(int i){
+        hoursWorked += i;
+    }
     public void setName(String name){
         this.name = name;
     }

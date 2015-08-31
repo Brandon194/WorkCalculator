@@ -1,15 +1,20 @@
 package core;
 
 import fileIO.Config;
+import fileIO.FileReadWrite;
+import gui.frmWorkToday;
 import gui.pnlHours;
 import gui.pnlJobs;
 import gui.pnlSettings;
 import handler.JobHandler;
 import handler.TrayHandler;
 import misc.Parse;
+import sun.util.calendar.LocalGregorianCalendar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 /**
  * Created by Brandon194 on 5/22/2015.
@@ -26,8 +31,11 @@ public class Settings {
     private pnlJobs pnljobs;
     private pnlHours pnlhours;
     private pnlSettings pnlsettings;
+    private frmWorkToday frmWorktoday;
 
     private boolean debug = false;
+    private boolean EndOfWeek = false;
+    private int endOfWeek = 7;
 
     public Settings(JobHandler jHander, TrayHandler hHandler){
         image = new ImageIcon(getClass().getResource("/image/clock.png")).getImage();
@@ -42,6 +50,11 @@ public class Settings {
         } else {
             setDebug(false);
         }
+        if (CONFIGS.doesExist("EndOfPay")){
+            setBackup(Parse.parseInt(CONFIGS.getValue("EndOfPay")));
+        } else {
+            //setEndOfPay(endOfPay);
+        }
 
         jobHandler.load();
         pnlhours.addComponents();
@@ -55,11 +68,47 @@ public class Settings {
 
         applyConfig();
     }
+    public void setFRMWorkToday(frmWorkToday frmWorktoday){
+        this.frmWorktoday = frmWorktoday;
+    }
+    public frmWorkToday getFRMWorkToday(){
+        return frmWorktoday;
+    }
 
     public void addComponents(){
         pnljobs.addComponents();
         pnlhours.addComponents();
         pnlsettings.addComponents();
+    }
+
+
+    public void setBackup(int endOfPay){
+        this.endOfWeek = endOfPay;
+    }
+    public int getBackup(){
+        return this.endOfWeek;
+    }
+    public void backup(){
+        LocalDate localDate = LocalDate.now();
+        if (endOfWeek == localDate.getDayOfWeek().getValue() && !EndOfWeek){
+            FileReadWrite frw = new FileReadWrite("WorkCalculator\\history", "" +  localDate.getMonth() + "-" + localDate.getYear());
+            String[] old = frw.reader();
+            String[] New = new String[old.length+1];
+
+            for (int i=0;i<old.length;i++){
+                New[i] = old[i];
+            }
+
+            String Old = "" + LocalDate.now() + ": ";
+            for (int i=0;i<jobHandler.getNumOfJobs();i++){
+                Old = Old + jobHandler.getJob(i).getName() + ", " + jobHandler.getJob(i).getHours() + " | ";
+            }
+
+            New[New.length-1] = Old;
+            frw.writer(New);
+            EndOfWeek = true;
+        } else if (endOfWeek != localDate.getDayOfWeek().getValue())
+            EndOfWeek = false;
     }
 
     public void setDebug(boolean debug){

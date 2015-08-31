@@ -1,6 +1,7 @@
 package gui;
 
 import core.WorkCalculator;
+import misc.Parse;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,26 +15,32 @@ import java.time.LocalTime;
 /**
  * Created by Brandon194 on 5/24/2015.
  */
-public class frmWorkToday implements Runnable{
+public class frmWorkToday implements Runnable, ActionListener{
 
     private static JFrame frame = new JFrame();
+    private JButton btnApply = new JButton("Apply");
 
-    private WorkCalculator workCalculator = new WorkCalculator();
+    private WorkCalculator workCalculator;
 
-    private JPanel panel1;
+    private JPanel pnlMain;
     private JButton noButton;
     private JButton yesButton;
     private boolean today = false;
     private LocalDate localDate = LocalDate.of(1994,4,30);
 
+    private JTextField[] txtHours;
+
     private final Dimension FRAME_DIM = new Dimension(130,100);
 
-    public frmWorkToday() {
+    public frmWorkToday(WorkCalculator wc) {
+
+        workCalculator = wc;
+
         addComponents();
-        frame.setContentPane(panel1);
+        frame.setContentPane(pnlMain);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setVisible(false);
+        frame.setVisible(true);
         frame.setSize(FRAME_DIM);
         frame.setResizable(false);
 
@@ -41,36 +48,45 @@ public class frmWorkToday implements Runnable{
     }
 
     public void addComponents() {
-        panel1 = new JPanel();
-        JPanel panel2 = new JPanel();
-        panel1.setLayout(new BorderLayout());
-        yesButton = new JButton("Yes");
-        noButton = new JButton("No");
-        JLabel label = new JLabel("Did you work today");
+        pnlMain = new JPanel();
+        pnlMain.setLayout(new BorderLayout());
+        btnApply = new JButton("Apply");
 
-        panel2.add(yesButton);
-        panel2.add(noButton);
-        label.setHorizontalAlignment(JLabel.CENTER);
+        JPanel pnlJobNames = new JPanel();
+        pnlJobNames.setLayout(new GridLayout(workCalculator.SETTINGS.getJobHandler().getNumOfJobs()+1,2));
 
-        panel1.add(label, BorderLayout.CENTER);
-        panel1.add(panel2, BorderLayout.SOUTH);
 
-        yesButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                workCalculator.setVisible(true);
-                workCalculator.requestFocus();
-                frame.setVisible(false);
+        txtHours = new JTextField[workCalculator.SETTINGS.getJobHandler().getNumOfJobs()];
+
+        for (int i=0;i<workCalculator.SETTINGS.getJobHandler().getNumOfJobs();i++){
+            pnlJobNames.add(new JLabel(workCalculator.SETTINGS.getJobHandler().getJob(i).getName()));
+
+            txtHours[i] = new JTextField("0");
+            pnlJobNames.add(txtHours[i]);
+        }
+
+        pnlJobNames.add(new JPanel());
+        pnlJobNames.add(btnApply);
+        btnApply.addActionListener(this);
+
+        pnlMain.add(pnlJobNames, BorderLayout.CENTER);
+
+        pnlMain.revalidate();
+    }
+
+    public void setVisible(boolean vis){
+        frame.setVisible(vis);
+    }
+
+
+    public void actionPerformed(ActionEvent event){
+        if (event.getSource() == btnApply){
+            for(int i=0;i<workCalculator.SETTINGS.getJobHandler().getNumOfJobs();i++){
+                workCalculator.SETTINGS.getJobHandler().getJob(i).addHours(Parse.parseInt(txtHours[i].getText()));
             }
-        });
-        noButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                frame.setVisible(false);
-            }
-        });
 
-        panel1.revalidate();
+            frame.setVisible(false);
+        }
     }
 
     public void run(){
@@ -79,8 +95,6 @@ public class frmWorkToday implements Runnable{
                 frame.requestFocus();
                 frame.setVisible(true);
                 localDate = LocalDate.now();
-            } else {
-                frame.setVisible(false);
             }
             try{
                 Thread.sleep(3600000);

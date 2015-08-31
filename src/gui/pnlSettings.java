@@ -21,8 +21,12 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
 
     private JButton btnDebug;
 
-    private JLabel lblClose = new JLabel();
+    private JLabel lblClose = new JLabel("Exit WorkCalcualtor");
     private JButton btnClose = new JButton("Close");
+
+    private String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday", "Sunday"};
+    private JLabel lblEndOfWeek = new JLabel("End of The Week: ");
+    private JComboBox comboBoxEndOfWeek = new JComboBox(daysOfWeek);
 
     private WorkCalculator wc;
 
@@ -47,7 +51,7 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
 
 
         pnlMain.removeAll();
-        pnlMain.setLayout(new GridLayout(2, 2));
+        pnlMain.setLayout(new GridLayout(6,2));
         debugButton(debug);
 
         if (!tray){
@@ -56,16 +60,13 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
             btnClose.addActionListener(this);
         }
 
-        if (!debug && tray) {
-            JPanel noneListed = new JPanel();
-            noneListed.setLayout(new BorderLayout());
-            JLabel none1 = new JLabel("This is not the Panel you are looking for.");
-            JLabel none2 = new JLabel("Move along, move along.");
-            noneListed.add(none1, BorderLayout.NORTH);
-            noneListed.add(none2, BorderLayout.SOUTH);
+        pnlMain.add(lblEndOfWeek);
+        pnlMain.add(comboBoxEndOfWeek);
 
-            pnlMain.add(noneListed);
-        }
+        comboBoxEndOfWeek.setSelectedIndex(wc.SETTINGS.getBackup()-1);
+        comboBoxEndOfWeek.addActionListener(this);
+
+        pnlMain.revalidate();
     }
 
 
@@ -88,6 +89,8 @@ public class pnlSettings extends DefaultPanel implements ActionListener {
             wc.SETTINGS.toggleDebug();
         }else if (event.getSource() == btnClose){
             wc.SETTINGS.close();
+        } else if (event.getSource() == comboBoxEndOfWeek){
+            wc.SETTINGS.setBackup(comboBoxEndOfWeek.getSelectedIndex()+1);
         }
 
         addComponents();
