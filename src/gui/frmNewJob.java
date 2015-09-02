@@ -1,5 +1,6 @@
 package gui;
 
+import core.WorkCalculator;
 import handler.JobHandler;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
  */
 public class frmNewJob extends JFrame implements ActionListener {
 
-    JobHandler handler;
+    WorkCalculator wc;
     pnlJobs pnljob;
 
     JPanel pnlMain = new JPanel();
@@ -28,10 +29,10 @@ public class frmNewJob extends JFrame implements ActionListener {
     Dimension d = new Dimension(310,120);
 
 
-    public frmNewJob(JobHandler handler, pnlJobs pnljob){
+    public frmNewJob(WorkCalculator wc, pnlJobs pnljob){
         this.setIconImage(new ImageIcon(getClass().getResource("/image/clock.png")).getImage());
 
-        this.handler = handler;
+        this.wc = wc;
         this.pnljob = pnljob;
 
         this.add(pnlMain);
@@ -69,12 +70,15 @@ public class frmNewJob extends JFrame implements ActionListener {
             wage = 10.50;
         }
 
-        handler.addNewJob(txtJob.getText(),wage);
+        wc.SETTINGS.getJobHandler().addNewJob(txtJob.getText(), wage);
         pnljob.addComponents();
 
         if (event.getSource() == btnApply) {
             pnljob.frameClose();
+            wc.SETTINGS.addComponents();
             this.dispose();
         }
+
+
     }
 }

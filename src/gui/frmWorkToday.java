@@ -40,7 +40,6 @@ public class frmWorkToday implements Runnable, ActionListener{
         frame.setContentPane(pnlMain);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setVisible(true);
         frame.setSize(FRAME_DIM);
         frame.setResizable(false);
 
@@ -53,6 +52,16 @@ public class frmWorkToday implements Runnable, ActionListener{
         btnApply = new JButton("Apply");
 
         JPanel pnlJobNames = new JPanel();
+
+        if(workCalculator.SETTINGS.getJobHandler().getNumOfJobs() < 1){
+            frame.setVisible(false);
+            workCalculator.setVisible(true);
+            workCalculator.setVisibleTab(1);
+        } else {
+            frame.setVisible(true);
+            workCalculator.setVisible(false);
+        }
+
         pnlJobNames.setLayout(new GridLayout(workCalculator.SETTINGS.getJobHandler().getNumOfJobs()+1,2));
 
 
@@ -86,6 +95,8 @@ public class frmWorkToday implements Runnable, ActionListener{
             }
 
             frame.setVisible(false);
+            workCalculator.SETTINGS.addComponents();
+            workCalculator.setVisible(true);
         }
     }
 

@@ -33,7 +33,7 @@ public class Settings {
     private pnlSettings pnlsettings;
     private frmWorkToday frmWorktoday;
 
-    private boolean debug = false;
+    private boolean debug = true;
     private boolean EndOfWeek = false;
     private int endOfWeek = 7;
 

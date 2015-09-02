@@ -67,14 +67,14 @@ public class pnlJobs extends DefaultPanel implements ActionListener {
         for (int i=0;i<handler.getNumOfJobs();i++){
             if (event.getSource() == btnDel[i]){
                 handler.deleteJob(i);
+                wc.SETTINGS.addComponents();
             }
         }
 
         if (event.getSource() == btnNew && !frameOpen){
-            frm = new frmNewJob(handler, this);
+            frm = new frmNewJob(wc, this);
             frameOpen = true;
         }
-
 
     }
 }

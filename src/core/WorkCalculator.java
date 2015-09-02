@@ -68,6 +68,10 @@ public class WorkCalculator extends JFrame implements ChangeListener{
         SETTINGS.addComponents();
     }
 
+    public void setVisibleTab(int i){
+        tabbedPane.setSelectedIndex(i);
+    }
+
     public void stateChanged(ChangeEvent e) {
         pnlhours.addComponents();
         pnljobs.addComponents();
